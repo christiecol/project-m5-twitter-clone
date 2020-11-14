@@ -1,8 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { IconContext } from "react-icons";
-
 import styled from "styled-components";
 import moment from "moment";
 
@@ -11,8 +9,7 @@ import { Tweet } from "../Tweets/Tweet";
 import { ProfileFeed } from "./ProfileFeed";
 
 export const Profile = (props) => {
-  const { profile, id } = props;
-
+  const { profile } = props;
   const history = useHistory();
   const shortDate = moment(profile.joined).format("MMM YYYY");
   const banner = profile.bannerSrc;

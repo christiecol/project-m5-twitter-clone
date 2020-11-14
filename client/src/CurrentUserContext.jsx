@@ -1,5 +1,8 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
 
+import { Loading } from "./Loading";
+import { ErrorPage } from "./ErrorPage";
+
 export const CurrentUserContext = createContext(null);
 
 export const useUser = () => useContext(CurrentUserContext);
@@ -22,13 +25,28 @@ export const CurrentUserProvider = ({ children }) => {
           // Also, set `status` to `idle`
           setStatus("idle");
         }
+      })
+      .catch((error) => {
+        setStatus("error");
       });
   }, []);
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser, status }}>
-      {children}
-    </CurrentUserContext.Provider>
+    <>
+      {status === "error" ? (
+        <ErrorPage />
+      ) : (
+        <>
+          {status === "loading" ? (
+            <Loading />
+          ) : (
+            <CurrentUserContext.Provider value={{ currentUser, status }}>
+              {children}
+            </CurrentUserContext.Provider>
+          )}
+        </>
+      )}
+    </>
   );
 };
 

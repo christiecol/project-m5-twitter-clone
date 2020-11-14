@@ -8,7 +8,6 @@ import { Bookmarks } from "./Bookmarks";
 import { TweetDetails } from "./Tweets/TweetDetails";
 import { ProfileDetails } from "./profile/ProfileDetails";
 import { Sidebar } from "./Sidebar";
-import { TweetProvider } from "./Tweets/TweetContext";
 import { CurrentUserProvider } from "./CurrentUserContext";
 import { HomeFeedProvider } from "./homeFeed/HomeFeedProvider";
 

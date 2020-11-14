@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import { Tweet } from "./Tweet";
+import { useUser } from "../CurrentUserContext";
+import { ErrorPage } from "../ErrorPage";
 
 export const TweetDetails = () => {
   const { tweetId } = useParams();
+  const { status, setStatus } = useUser();
 
   const [currentTweet, setCurrentTweet] = useState(null);
-  const [tweetStatus, setTweetStatus] = useState("loading");
 
   useEffect(() => {
     // Fetch the user data from the API
@@ -19,17 +22,15 @@ export const TweetDetails = () => {
         if (data) {
           // When the data is received, update currentUser.
           setCurrentTweet(data.tweet);
-          setTweetStatus("idle");
+          setStatus("");
         }
       });
   }, []);
-  // console.log(currentTweet);
 
-  return (
-    <>
-      {!currentTweet || tweetStatus === "loading" ? (
-        <p>Loading</p>
-      ) : (
+  // console.log(currentTweet);
+  if (currentTweet && status === "") {
+    return (
+      <>
         <div>
           <Tweet
             key={currentTweet.id}
@@ -37,7 +38,8 @@ export const TweetDetails = () => {
             handle={currentTweet.author.handle}
           />
         </div>
-      )}
-    </>
-  );
+      </>
+    );
+  }
+  return <div>{status}</div>;
 };

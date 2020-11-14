@@ -7,11 +7,12 @@ import { FiRepeat } from "react-icons/fi";
 import styled from "styled-components";
 import moment from "moment";
 import ActionBar from "./ActionBar";
-// import Header from "./Header";
+import { ErrorPage } from "../ErrorPage";
 
 export const Tweet = (props) => {
-  const { tweet, id, handle, numLikes } = props;
-  console.log("numLiked", numLikes);
+  const { tweet, id, handle, isLiked, isRetweeted, numLikes } = props;
+  console.log(isLiked);
+
   const history = useHistory();
   const shortDate = moment(tweet.timestamp).format("MMM Do");
   const author = tweet.author;
@@ -58,7 +59,12 @@ export const Tweet = (props) => {
               <TweetImage src={media} />
             </TweetStatus>
           </div>
-          <ActionBar tweetId={id} numLikes={numLikes} />
+          <ActionBar
+            numLikes={numLikes}
+            tweetId={id}
+            isLiked={isLiked}
+            isRetweeted={isRetweeted}
+          />
         </TweetContents>
       </TweetDiv>
     </>

@@ -28,10 +28,7 @@ export const Sidebar = () => {
         <SidebarLinkDiv>
           <FiUser />
 
-          <StyledLink
-            exact
-            to={status === "idle" ? `/${currentUser}` : "Loading"}
-          >
+          <StyledLink exact to={status === "" ? `/${currentUser}` : "Loading"}>
             Profile
           </StyledLink>
         </SidebarLinkDiv>

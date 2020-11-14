@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Tweet } from "./Tweet";
-import ActionBar from "./ActionBar";
 
 export const TweetDetails = () => {
   const { tweetId } = useParams();
@@ -32,7 +31,11 @@ export const TweetDetails = () => {
         <p>Loading</p>
       ) : (
         <div>
-          <Tweet key={currentTweet.id} tweet={currentTweet} />
+          <Tweet
+            key={currentTweet.id}
+            tweet={currentTweet}
+            handle={currentTweet.author.handle}
+          />
         </div>
       )}
     </>

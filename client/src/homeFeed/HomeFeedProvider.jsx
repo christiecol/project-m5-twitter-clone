@@ -11,7 +11,8 @@ export const HomeFeedProvider = ({ children }) => {
   const [numOfRetweets, setNumOfRetweets] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isRetweeted, setIsRetweeted] = useState(false);
-
+  const [toggleFetch, setToggleFetch] = useState(false);
+  // console.log("isLiked", isLiked);
   useEffect(() => {
     // Fetch the user data from the API
     fetch("/api/me/home-feed")
@@ -26,17 +27,12 @@ export const HomeFeedProvider = ({ children }) => {
           setCurrentFeed(tweets);
         }
       });
-  }, []);
-  //   console.log(currentFeed);
-
-  //   console.log(singleTweetLiked);
+  }, [toggleFetch]);
 
   // Copied over from Whimsy workshop
-  const handleToggleLike = () => {
+  const handleToggleLike = (tweetId) => {
+    console.log("tweetId", tweetId);
     const incOrDec = isLiked ? -1 : 1;
-
-    setIsLiked(!isLiked);
-    setNumOfLikes(incOrDec);
   };
 
   const handleToggleRetweet = () => {
@@ -49,13 +45,17 @@ export const HomeFeedProvider = ({ children }) => {
   return (
     <HomeFeedContext.Provider
       value={{
+        toggleFetch,
+        setToggleFetch,
         currentFeed,
+        setCurrentFeed,
         numOfLikes,
         setNumOfLikes,
         numOfRetweets,
         setNumOfRetweets,
         handleToggleLike,
         handleToggleRetweet,
+        isLikedByCurrentUser: isLiked,
       }}
     >
       {children}

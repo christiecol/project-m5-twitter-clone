@@ -10,7 +10,8 @@ import ActionBar from "./ActionBar";
 // import Header from "./Header";
 
 export const Tweet = (props) => {
-  const { tweet, id, handle } = props;
+  const { tweet, id, handle, numLikes } = props;
+  console.log("numLiked", numLikes);
   const history = useHistory();
   const shortDate = moment(tweet.timestamp).format("MMM Do");
   const author = tweet.author;
@@ -28,7 +29,7 @@ export const Tweet = (props) => {
 
   return (
     <>
-      <TweetDiv>
+      <TweetDiv tabIndex="0" aria-label="View tweet">
         {/* avatar div */}
         <AvatarDiv>
           <IconContext.Provider value={{ size: "1.2rem" }}>
@@ -57,7 +58,7 @@ export const Tweet = (props) => {
               <TweetImage src={media} />
             </TweetStatus>
           </div>
-          <ActionBar />
+          <ActionBar tweetId={id} numLikes={numLikes} />
         </TweetContents>
       </TweetDiv>
     </>

@@ -5,12 +5,14 @@ import LikeButton from "../LikeButton";
 import Action from "./Action";
 import TweetActionIcon from "./TweetActionIcon";
 import { useFeed } from "../homeFeed/HomeFeedProvider";
-const ActionBar = () => {
+
+const ActionBar = ({ tweetId, isLiked }) => {
   const {
     isRetweetedByCurrentUser,
     handleToggleLike,
     handleToggleRetweet,
   } = useFeed();
+
   return (
     <Wrapper>
       <Action color="rgb(27, 149, 224)" size={40}>
@@ -22,7 +24,13 @@ const ActionBar = () => {
           color={isRetweetedByCurrentUser ? "rgb(23, 191, 99)" : undefined}
         />
       </Action>
-      <Action onClick={handleToggleLike} color="rgb(224, 36, 94)" size={40}>
+      <Action
+        onClick={() => {
+          handleToggleLike(tweetId);
+        }}
+        color="rgb(224, 36, 94)"
+        size={40}
+      >
         <LikeButton />
       </Action>
 

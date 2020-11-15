@@ -11,8 +11,8 @@ import { ProfileFeed } from "./ProfileFeed";
 
 export const Profile = (props) => {
   const { profile } = props;
-  const history = useHistory();
   const shortDate = moment(profile.joined).format("MMM YYYY");
+  console.log(shortDate);
   const banner = profile.bannerSrc;
   const avatar = profile.avatarSrc;
   console.log(profile);
@@ -36,8 +36,10 @@ export const Profile = (props) => {
           </NameAndFollowButton>
           <p>@{profile.handle}</p>
           <p>{profile.bio}</p>
-          <p>{profile.location}</p>
-          <p>{profile.shortDate}</p>
+          <p>
+            {profile.location}
+            <Date>{shortDate}</Date>
+          </p>
           <p>
             <strong>{profile.numFollowers}</strong> Followers
             <span>
@@ -103,12 +105,18 @@ const UserInfoDiv = styled.div`
   margin: 7rem 0 2rem 2rem;
   width: 80%;
 `;
+
+const Date = styled.span`
+  margin-left: 50px;
+`;
+
 const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-around;
   text-align: center;
   font-size: 25px;
   font-weight: bold;
+  margin-bottom: 30px;
 `;
 
 const TweetButton = styled.button`

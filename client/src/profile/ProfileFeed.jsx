@@ -3,13 +3,11 @@ import { ErrorPage } from "../ErrorPage";
 import styled from "styled-components";
 
 import { Tweet } from "../Tweets/Tweet";
-import { useFeed } from "../homeFeed/HomeFeedProvider";
 import { Loading } from "../Loading";
 
 export const ProfileFeed = (props) => {
   const { handle } = props;
-
-  const { errorMsg, setErrorMsg, homeStatus, setHomeStatus } = useFeed();
+  const [status, setStatus] = useState("loading");
 
   const [currentFeed, setCurrentFeed] = useState([]);
   console.log(handle);
@@ -26,36 +24,29 @@ export const ProfileFeed = (props) => {
           console.log(tweets);
           // When the data is received, update currentUser.
           setCurrentFeed(tweets);
-          setHomeStatus("idle");
+          setStatus("idle");
         }
-      })
-      .catch((error) => setErrorMsg("error"));
+      });
   }, []);
 
   return (
     <>
-      {errorMsg === "error" ? (
-        <ErrorPage />
+      {status === "loading" ? (
+        <Loading />
       ) : (
         <>
-          {homeStatus === "loading" ? (
-            <Loading />
-          ) : (
-            <>
-              <ProfileFeedDiv>
-                {currentFeed.map((tweet) => {
-                  return (
-                    <Tweet
-                      key={tweet.id}
-                      tweet={tweet}
-                      id={tweet.id}
-                      handle={tweet.author.handle}
-                    />
-                  );
-                })}
-              </ProfileFeedDiv>
-            </>
-          )}
+          <ProfileFeedDiv>
+            {currentFeed.map((tweet) => {
+              return (
+                <Tweet
+                  key={tweet.id}
+                  tweet={tweet}
+                  id={tweet.id}
+                  handle={tweet.author.handle}
+                />
+              );
+            })}
+          </ProfileFeedDiv>
         </>
       )}
     </>

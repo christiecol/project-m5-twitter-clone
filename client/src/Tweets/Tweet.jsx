@@ -7,7 +7,7 @@ import { FiRepeat } from "react-icons/fi";
 import styled from "styled-components";
 import moment from "moment";
 import ActionBar from "./ActionBar";
-import { ErrorPage } from "../ErrorPage";
+// import { ErrorPage } from "../ErrorPage";
 
 export const Tweet = (props) => {
   const { tweet, id, handle, isLiked, isRetweeted, numLikes } = props;

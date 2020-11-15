@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { useFeed } from "../../homeFeed/HomeFeedProvider";
+import { Loading } from "../../Loading";
 
 export const TweetInput = () => {
   const [userInput, setUserInput] = useState("");
   // const [maxedChar, setMaxedChar] = useState(false);
-  const { toggleFetch, setToggleFetch } = useFeed();
+  const { toggleFetch, setToggleFetch, homeStatus } = useFeed();
 
   const [charactersLeft, setCharactersLeft] = useState(280);
 
@@ -28,37 +29,45 @@ export const TweetInput = () => {
       .then((data) => {
         console.log(data);
         //check status?
-        setToggleFetch(!toggleFetch);
+        if (homeStatus === "idle") {
+          setToggleFetch(!toggleFetch);
+        } else {
+          <Loading />;
+        }
       });
   };
 
   return (
-    <TweetBox
-      onSubmit={(ev) => {
-        ev.preventDefault();
-        handleSubmit();
-      }}
-    >
-      <TweetInputArea
-        value={userInput}
-        onChange={(ev) => {
-          setUserInput(ev.target.value);
-          setCharactersLeft(280 - ev.target.value.length);
+    <>
+      <TweetBox
+        onSubmit={(ev) => {
+          ev.preventDefault();
+          handleSubmit();
+          setUserInput("");
+          setCharactersLeft(280);
         }}
-      ></TweetInputArea>
-      <ButtonCharactersLeft>
-        <Characters>
-          {charactersLeft >= 56 && <Safe>{charactersLeft}</Safe>}
-          {charactersLeft <= 55 && charactersLeft >= 0 && (
-            <Warning>{charactersLeft}</Warning>
-          )}
-          {charactersLeft < 0 && <Danger>{charactersLeft}</Danger>}
-        </Characters>
-        <Button type="submit" disabled={userInput.length <= 0}>
-          Meow!
-        </Button>
-      </ButtonCharactersLeft>
-    </TweetBox>
+      >
+        <TweetInputArea
+          value={userInput}
+          onChange={(ev) => {
+            setUserInput(ev.target.value);
+            setCharactersLeft(280 - ev.target.value.length);
+          }}
+        ></TweetInputArea>
+        <ButtonCharactersLeft>
+          <Characters>
+            {charactersLeft >= 56 && <Safe>{charactersLeft}</Safe>}
+            {charactersLeft <= 55 && charactersLeft >= 0 && (
+              <Warning>{charactersLeft}</Warning>
+            )}
+            {charactersLeft < 0 && <Danger>{charactersLeft}</Danger>}
+          </Characters>
+          <Button type="submit" disabled={userInput.length <= 0}>
+            Meow!
+          </Button>
+        </ButtonCharactersLeft>
+      </TweetBox>
+    </>
   );
 };
 

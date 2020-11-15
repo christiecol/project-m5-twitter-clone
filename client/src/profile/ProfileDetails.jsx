@@ -1,3 +1,54 @@
+// import React, { useEffect, useState } from "react";
+// import { useParams } from "react-router-dom";
+// import styled from "styled-components";
+
+// import { Profile } from "./Profile";
+// import { ProfileFeed } from "./ProfileFeed";
+
+// export const ProfileDetails = () => {
+//   const { profileId } = useParams();
+//   console.log("ProfileId", profileId);
+//   const [currentProfile, setCurrentProfile] = useState(null);
+//   const [status, setStatus] = useState("loading");
+//   // console.log(profileId);
+//   useEffect(() => {
+//     fetch(`/api/${profileId}/profile`)
+//       .then((res) => {
+//         return res.json();
+//       })
+//       .then((data) => {
+//         console.log(data);
+//         if (data) {
+//           // When the data is received, update currentUser.
+//           setCurrentProfile(data.profile);
+//           setStatus("idle");
+//         }
+//       });
+//   }, [profileId]);
+
+//   console.log(currentProfile);
+
+//   return (
+//     <>
+//       {!currentProfile || status === "loading" ? (
+//         <p>Loading</p>
+//       ) : (
+//         <ProfileDiv>
+//           <Profile
+//             id={currentProfile.handle}
+//             key={currentProfile.handle}
+//             profile={currentProfile}
+//           />
+//           <ProfileFeed handle={currentProfile.handle} />
+//         </ProfileDiv>
+//       )}
+//     </>
+//   );
+// };
+// const ProfileDiv = styled.div`
+//   width: 59.7vw;
+// `;
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -10,8 +61,8 @@ import { Loading } from "../Loading";
 export const ProfileDetails = () => {
   const { profileId } = useParams();
   const [currentProfile, setCurrentProfile] = useState(null);
-  // const [profileStatus, setProfileStatus] = useState("loading");
-  // const [errorMsg, setErrorMsg] = useState(""); // console.log(profileId);
+  const [profileStatus, setProfileStatus] = useState("loading");
+  const [errorMsg, setErrorMsg] = useState(""); // console.log(profileId);
 
   useEffect(() => {
     fetch(`/api/${profileId}/profile`)
@@ -19,46 +70,46 @@ export const ProfileDetails = () => {
         return res.json();
       })
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         if (data) {
+          console.log(data);
           // When the data is received, update currentUser.
           setCurrentProfile(data.profile);
-          // setProfileStatus("idle");
+          setProfileStatus("idle");
         }
+      })
+      .catch((error) => {
+        setErrorMsg("error");
       });
-    // .catch((error) => {
-    //   setErrorMsg("error");
-    // });
   }, [profileId]);
 
   // console.log(currentProfile);
-  if (!currentProfile) {
-    return (
-      // <>
-      //   {errorMsg === "error" ? (
-      //     <ErrorPage />
-      //   ) : (
-      //     <>
-      //       {!currentProfile || profileStatus === "loading" ? (
-      //         <Loading />
-      //       ) : (
-      <>
-        <ProfileDiv>
-          <Profile
-            id={currentProfile.handle}
-            key={currentProfile.handle}
-            profile={currentProfile}
-          />
-          <ProfileFeed handle={currentProfile.handle} />
-        </ProfileDiv>
-      </>
-      //       )}
-      //     </>
-      //   )}
-      // </>
-    );
-  }
-  return <p>Loading</p>;
+
+  console.log(currentProfile);
+  return (
+    <>
+      {errorMsg === "error" ? (
+        <ErrorPage />
+      ) : (
+        <>
+          {!currentProfile || profileStatus === "loading" ? (
+            <Loading />
+          ) : (
+            <>
+              <ProfileDiv>
+                <Profile
+                  id={currentProfile.handle}
+                  key={currentProfile.handle}
+                  profile={currentProfile}
+                />
+                <ProfileFeed handle={currentProfile.handle} />
+              </ProfileDiv>
+            </>
+          )}
+        </>
+      )}
+    </>
+  );
 };
 
 const ProfileDiv = styled.div`

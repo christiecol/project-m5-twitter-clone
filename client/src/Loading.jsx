@@ -5,10 +5,10 @@ import { FiLoader } from "react-icons/fi";
 import styled, { keyframes } from "styled-components";
 
 const rotate = keyframes`
-from {
+0% {
     transform: roatate(0deg);
 }
-to {
+100% {
     transform: rotate(360deg)
 }
 `;

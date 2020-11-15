@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { FiHome, FiUser, FiBell, FiBookmark } from "react-icons/fi";
 import { useUser } from "./CurrentUserContext";
+import { Loading } from "./Loading";
 
 // svg logo
 import { ReactComponent as Logo } from "./logo.svg";
@@ -28,7 +29,10 @@ export const Sidebar = () => {
         <SidebarLinkDiv>
           <FiUser />
 
-          <StyledLink exact to={status === "" ? `/${currentUser}` : "Loading"}>
+          <StyledLink
+            exact
+            to={status === "idle" ? `/${currentUser}` : <Loading />}
+          >
             Profile
           </StyledLink>
         </SidebarLinkDiv>

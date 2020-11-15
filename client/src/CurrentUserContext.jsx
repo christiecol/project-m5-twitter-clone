@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
 
-import { Loading } from "./Loading";
-import { ErrorPage } from "./ErrorPage";
+// import { Loading } from "./Loading";
+// import { ErrorPage } from "./ErrorPage";
 
 export const CurrentUserContext = createContext(null);
 
@@ -25,29 +25,36 @@ export const CurrentUserProvider = ({ children }) => {
           // Also, set `status` to `idle`
           setStatus("idle");
         }
-      })
-      .catch((error) => {
-        setStatus("error");
       });
+    // .catch((error) => {
+    //   setStatus("error");
+    // });
   }, []);
 
   return (
-    <>
-      {status === "error" ? (
-        <ErrorPage />
-      ) : (
-        <>
-          {status === "loading" ? (
-            <Loading />
-          ) : (
-            <CurrentUserContext.Provider value={{ currentUser, status }}>
-              {children}
-            </CurrentUserContext.Provider>
-          )}
-        </>
-      )}
-    </>
+    <CurrentUserContext.Provider value={{ currentUser, status }}>
+      {children}
+    </CurrentUserContext.Provider>
   );
 };
+
+//   return (
+//     <>
+//       {status === "error" ? (
+//         <ErrorPage />
+//       ) : (
+//         <>
+//           {status === "loading" ? (
+//             <Loading />
+//           ) : (
+//             <CurrentUserContext.Provider value={{ currentUser, status }}>
+//               {children}
+//             </CurrentUserContext.Provider>
+//           )}
+//         </>
+//       )}
+//     </>
+//   );
+// };
 
 export default CurrentUserContext;

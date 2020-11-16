@@ -5,17 +5,20 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { BiCalendar } from "react-icons/bi";
+
 import { COLORS } from "../constants";
 import { Tweet } from "../Tweets/Tweet";
 import { ProfileFeed } from "./ProfileFeed";
 
 export const Profile = (props) => {
   const { profile } = props;
+  console.log(profile);
   const shortDate = moment(profile.joined).format("MMM YYYY");
   console.log(shortDate);
   const banner = profile.bannerSrc;
   const avatar = profile.avatarSrc;
-  console.log(profile);
 
   function renderTweets() {
     return <Tweet />;
@@ -34,12 +37,31 @@ export const Profile = (props) => {
               <FollowButton type="button">Following</FollowButton>
             </span>
           </NameAndFollowButton>
-          <p>@{profile.handle}</p>
-          <p>{profile.bio}</p>
           <p>
-            {profile.location}
-            <Date>{shortDate}</Date>
+            @{profile.handle}{" "}
+            {profile.isFollowingYou === true ? (
+              <FollowsYou>Follows you</FollowsYou>
+            ) : (
+              ""
+            )}
           </p>
+          <p>{profile.bio}</p>
+          <LocationDate>
+            {profile.location ? (
+              <MarkerDiv>
+                <HiOutlineLocationMarker />
+              </MarkerDiv>
+            ) : (
+              ""
+            )}
+            {profile.location}
+            <Date>
+              <CalDiv>
+                <BiCalendar />
+              </CalDiv>
+              {shortDate}
+            </Date>
+          </LocationDate>
           <p>
             <strong>{profile.numFollowers}</strong> Followers
             <span>
@@ -101,13 +123,33 @@ const FollowButton = styled.button`
   padding: 10px;
 `;
 
+const FollowsYou = styled.span`
+  background: rgb(240, 240, 240);
+  padding: 3px;
+`;
+
 const UserInfoDiv = styled.div`
   margin: 7rem 0 2rem 2rem;
   width: 80%;
 `;
 
+const LocationDate = styled.div`
+  display: flex;
+`;
+
+const MarkerDiv = styled.div`
+  margin-right: 5px;
+  opacity: 0.6;
+`;
+
+const CalDiv = styled.div`
+  margin-right: 5px;
+  opacity: 0.6;
+`;
+
 const Date = styled.span`
   margin-left: 50px;
+  display: flex;
 `;
 
 const ButtonDiv = styled.div`

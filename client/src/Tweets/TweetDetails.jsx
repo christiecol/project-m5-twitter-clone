@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { Tweet } from "./Tweet";
-import { useUser } from "../CurrentUserContext";
-// import { ErrorPage } from "../ErrorPage";
+import { Loading } from "../Loading";
+import { ErrorPage } from "../ErrorPage";
 
 export const TweetDetails = () => {
   const { tweetId } = useParams();
-  // const { status, setStatus } = useUser();
 
   const [currentTweet, setCurrentTweet] = useState(null);
   const [tweetStatus, setTweetStatus] = useState("loading");
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     // Fetch the user data from the API
@@ -25,33 +25,27 @@ export const TweetDetails = () => {
           setCurrentTweet(data.tweet);
           setTweetStatus("idle");
         }
-      });
+      })
+      .catch((error) => setErrorMsg("error"));
   }, []);
+
   return (
     <>
-      {!currentTweet || tweetStatus === "loading" ? (
-        <p>Loading</p>
+      {errorMsg === "error" ? (
+        <ErrorPage />
       ) : (
-        <div>
-          <Tweet key={currentTweet.id} tweet={currentTweet} />
-        </div>
+        <>
+          {!currentTweet || tweetStatus === "loading" ? (
+            <Loading />
+          ) : (
+            <>
+              <div>
+                <Tweet key={currentTweet.id} tweet={currentTweet} />
+              </div>
+            </>
+          )}
+        </>
       )}
     </>
   );
 };
-//   // console.log(currentTweet);
-//   if (currentTweet && status === "") {
-//     return (
-//       <>
-//         <div>
-//           <Tweet
-//             key={currentTweet.id}
-//             tweet={currentTweet}
-//             handle={currentTweet.author.handle}
-//           />
-//         </div>
-//       </>
-//     );
-//   }
-//   return <div>{status}</div>;
-// };

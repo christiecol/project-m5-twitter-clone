@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Tweet } from "../Tweets/Tweet";
 import { TweetInput } from "../Tweets/postTweet/TweetInput";
@@ -9,7 +9,20 @@ import { Loading } from "../Loading";
 
 export const HomeFeed = () => {
   const { currentFeed, errorMsg, homeStatus } = useFeed();
-  // console.log("current", currentFeed);
+
+  const [avatar, setAvatar] = useState("");
+
+  //trying to render currentuser avatar
+
+  // const avatarSource = () => {
+  //   return currentFeed.map((tweet) => {
+  //     console.log(tweet.author.handle);
+  //     if (tweet.author.handle === "treasurymog") {
+  //       const treasurymogAvatar = tweet.author.avatarSrc;
+  //       setAvatar(treasurymogAvatar);
+  //     }
+  //   });
+  // };
 
   return (
     <>
@@ -24,7 +37,6 @@ export const HomeFeed = () => {
               <div>
                 <TweetInput />
                 {currentFeed.map((tweet) => {
-                  console.log(tweet.numLikes);
                   return (
                     <Tweet
                       key={tweet.id}

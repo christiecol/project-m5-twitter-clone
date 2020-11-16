@@ -2,7 +2,6 @@ import React from "react";
 import { Icon } from "react-icons-kit";
 import { u1F4A3 as bomb } from "react-icons-kit/noto_emoji_regular/u1F4A3";
 import styled from "styled-components";
-import { Sidebar } from "./Sidebar";
 
 export const ErrorPage = () => {
   return (

@@ -9,10 +9,9 @@ import { COLORS } from "../../constants";
 
 export const TweetInput = () => {
   const [userInput, setUserInput] = useState("");
-  // const [maxedChar, setMaxedChar] = useState(false);
-  const { toggleFetch, setToggleFetch, homeStatus } = useFeed();
-  const { currentUser } = useUser();
-  console.log(currentUser);
+  const { toggleFetch, setToggleFetch, homeStatus, currentFeed } = useFeed();
+  const { avatar } = useUser();
+  console.log(currentFeed);
 
   const [charactersLeft, setCharactersLeft] = useState(280);
 
@@ -32,7 +31,6 @@ export const TweetInput = () => {
       })
       .then((data) => {
         console.log(data);
-        //check status?
         if (homeStatus === "idle") {
           setToggleFetch(!toggleFetch);
         } else {
@@ -59,46 +57,69 @@ export const TweetInput = () => {
           setCharactersLeft(280);
         }}
       >
-        <h2>Home</h2>
-        <div>
-          <img src={currentUser.avatarSrc} />
-        </div>
-        <TweetInputArea
-          type="text"
-          aria-label="write a tweet"
-          placeholder="What's on your mind?"
-          value={userInput}
-          onChange={(ev) => {
-            setUserInput(ev.target.value);
-            setCharactersLeft(280 - ev.target.value.length);
-          }}
-          onKeyDown={handleKeyDown}
-        ></TweetInputArea>
-        <ButtonCharactersLeft>
-          <Characters>
-            {charactersLeft >= 56 && <Safe>{charactersLeft}</Safe>}
-            {charactersLeft <= 55 && charactersLeft >= 0 && (
-              <Warning>{charactersLeft}</Warning>
-            )}
-            {charactersLeft < 0 && <Danger>{charactersLeft}</Danger>}
-          </Characters>
-          <Button
-            type="submit"
-            aria-label="post your tweet"
-            disabled={userInput.length <= 0}
-          >
-            Meow!
-          </Button>
-        </ButtonCharactersLeft>
+        <Home>
+          <h2>Home</h2>
+        </Home>
+        <SplitDiv>
+          <AvatarDiv>
+            <Avatar src={avatar} />
+          </AvatarDiv>
+
+          <InputArea>
+            <TweetInputArea
+              type="text"
+              aria-label="write a tweet"
+              placeholder="What's on your mind?"
+              value={userInput}
+              onChange={(ev) => {
+                setUserInput(ev.target.value);
+                setCharactersLeft(280 - ev.target.value.length);
+              }}
+              onKeyDown={handleKeyDown}
+            ></TweetInputArea>
+            <ButtonCharactersLeft>
+              <Characters>
+                {charactersLeft >= 56 && <Safe>{charactersLeft}</Safe>}
+                {charactersLeft <= 55 && charactersLeft >= 0 && (
+                  <Warning>{charactersLeft}</Warning>
+                )}
+                {charactersLeft < 0 && <Danger>{charactersLeft}</Danger>}
+              </Characters>
+              <Button
+                type="submit"
+                aria-label="post your tweet"
+                disabled={userInput.length <= 0}
+              >
+                Meow!
+              </Button>
+            </ButtonCharactersLeft>
+          </InputArea>
+        </SplitDiv>
       </TweetBox>
     </>
   );
 };
 
+const Home = styled.div`
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgb(230, 230, 230);
+`;
+
+const SplitDiv = styled.div`
+  display: flex;
+`;
+
+const InputArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
 const TweetBox = styled.form`
   font-size: 18px;
   padding: 10px;
   position: relative;
+  border-bottom: 10px solid rgb(230, 230, 230);
 `;
 
 const TweetInputArea = styled.textarea`
@@ -117,11 +138,20 @@ const TweetInputArea = styled.textarea`
   }
 `;
 
+const AvatarDiv = styled.div``;
+
+const Avatar = styled.img`
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  margin: 0 10px;
+`;
+
 const ButtonCharactersLeft = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin: 1rem 0 2rem;
+  margin- top: 1rem;
 `;
 
 const Button = styled.button`

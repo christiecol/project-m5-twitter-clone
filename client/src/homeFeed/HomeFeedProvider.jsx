@@ -13,6 +13,7 @@ export const HomeFeedProvider = ({ children }) => {
   const [homeStatus, setHomeStatus] = useState("loading");
   const [errorMsg, setErrorMsg] = useState("");
   // console.log("isLiked", isLiked);
+
   useEffect(() => {
     // Fetch the user data from the API
     fetch("/api/me/home-feed")

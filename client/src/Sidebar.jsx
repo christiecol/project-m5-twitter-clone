@@ -60,6 +60,7 @@ const SidebarDiv = styled.div`
   position: relative;
   height: 100vh;
   width: 20vw;
+  margin-right: 30px;
 `;
 
 const StyledLink = styled(NavLink)`
